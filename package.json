@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=web\" \"npm run start:dev --workspace=api\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
