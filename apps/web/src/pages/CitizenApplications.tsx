@@ -21,6 +21,7 @@ export default function CitizenApplications() {
   const store = useApplicationStore();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cancelling, setCancelling] = useState<string | null>(null);
 
   useEffect(() => {
     if (!token) return;
@@ -31,7 +32,8 @@ export default function CitizenApplications() {
     })
       .then(res => res.json())
       .then(data => {
-        setApplications(data);
+        const activeApplications = data.filter((a: Application) => a.isPaid || a.status !== 'SUBMITTED');
+        setApplications(activeApplications);
         setLoading(false);
       })
       .catch(err => {
@@ -39,6 +41,28 @@ export default function CitizenApplications() {
         setLoading(false);
       });
   }, [token]);
+
+  const handleCancelApplication = async (appId: string) => {
+    if (!window.confirm("Are you sure you want to cancel this application?")) return;
+    setCancelling(appId);
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const res = await fetch(`${API_URL}/applications/${appId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setApplications(prev => prev.filter(a => a.applicationId !== appId));
+      } else {
+        alert("Failed to cancel application.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error cancelling application.");
+    } finally {
+      setCancelling(null);
+    }
+  };
 
   const getStageStatus = (app: Application, stageIndex: number) => {
     // Stages: 0: Submitted, 1: Canonical, 2: Payment, 3: Scrutiny, 4: Approved/Rejected
@@ -123,7 +147,7 @@ export default function CitizenApplications() {
               </span>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="font-headline-xl text-headline-xl text-secondary">{applications.filter(a => a.status === 'UNDER_REVIEW' || a.status === 'SUBMITTED').length}</span>
+              <span className="font-headline-xl text-headline-xl text-secondary">{applications.filter(a => a.status === 'UNDER_REVIEW').length}</span>
               <span className="font-title-sm text-title-sm text-on-surface">Applications</span>
             </div>
           </div>
@@ -293,18 +317,28 @@ export default function CitizenApplications() {
                     <div className="flex items-center gap-3">
                       <span className="font-code-sm text-code-sm text-on-surface-variant">Last updated: {new Date(app.updatedAt).toLocaleString()}</span>
                       {app.status === 'SUBMITTED' && (
-                        <button 
-                          onClick={() => {
-                            store.selectService(app.serviceName, app.fee);
-                            store.setApplicationId(app.applicationId);
-                            store.setStep('PAYMENT');
-                            navigate('/citizen/service-flow');
-                          }}
-                          className="bg-secondary hover:bg-secondary-container text-on-secondary hover:text-on-secondary-container px-3 py-1.5 rounded text-sm font-semibold transition-colors flex items-center gap-1"
-                        >
-                          <span className="material-symbols-outlined text-[16px]">payment</span>
-                          Complete Payment
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button 
+                            onClick={() => handleCancelApplication(app.applicationId)}
+                            disabled={cancelling === app.applicationId}
+                            className="bg-surface-container-high hover:bg-surface-variant text-on-surface-variant hover:text-on-surface px-3 py-1.5 rounded text-sm font-semibold transition-colors flex items-center gap-1 border border-outline-variant"
+                          >
+                            <span className="material-symbols-outlined text-[16px]">cancel</span>
+                            {cancelling === app.applicationId ? 'Cancelling...' : 'Cancel'}
+                          </button>
+                          <button 
+                            onClick={() => {
+                              store.selectService(app.serviceName, app.fee);
+                              store.setApplicationId(app.applicationId);
+                              store.setStep('PAYMENT');
+                              navigate('/citizen/service-flow');
+                            }}
+                            className="bg-secondary hover:bg-secondary-container text-on-secondary hover:text-on-secondary-container px-3 py-1.5 rounded text-sm font-semibold transition-colors flex items-center gap-1"
+                          >
+                            <span className="material-symbols-outlined text-[16px]">payment</span>
+                            Complete Payment
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>

@@ -287,13 +287,13 @@ export default function PaymentStep({ onNext }: Props) {
                 {/* Workflow CTAs */}
                 <div className="flex flex-col gap-space-sm pt-space-xs">
                   {!isPaid ? (
-                    <div className="flex flex-col gap-3">
-                      <button onClick={() => setIsPaid(true)} className="w-full py-3 px-space-md rounded bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm">
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <button onClick={() => navigate('/citizen/dashboard')} className="flex-1 py-3 px-space-md rounded border border-outline-variant text-on-surface font-title-sm text-title-sm text-center hover:bg-surface-container transition-colors">
+                        Cancel Application
+                      </button>
+                      <button onClick={() => setIsPaid(true)} className="flex-1 py-3 px-space-md rounded bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm">
                         <span className="material-symbols-outlined text-[18px]">payment</span>
                         <span>Make Payment (₹{store.feeAmount.toFixed(2)})</span>
-                      </button>
-                      <button onClick={() => navigate('/citizen/applications')} className="w-full py-2.5 px-space-md rounded bg-surface-container font-title-sm text-title-sm text-on-surface text-center hover:bg-surface-container-high transition-colors">
-                        Cancel & Pay Later
                       </button>
                     </div>
                   ) : (

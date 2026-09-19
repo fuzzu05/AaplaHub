@@ -60,4 +60,13 @@ export class ApplicationService {
     const results = await db.orm.public.ServiceApplication.all();
     return results;
   }
+
+  async deleteApplication(applicationId: string) {
+    const application = await db.orm.public.ServiceApplication.where({ applicationId }).first();
+    if (application) {
+      await db.orm.public.ServiceApplication.where({ id: application.id }).delete();
+      return { success: true };
+    }
+    return { success: false };
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Param, Delete } from '@nestjs/common';
 import { ApplicationService } from './application.service.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { IntegrationService } from '../integration/integration.service.js';
@@ -51,5 +51,10 @@ export class ApplicationController {
   @Post(':appId/status')
   async updateStatus(@Param('appId') appId: string, @Body() body: { status: 'APPROVED'|'REJECTED' }) {
     return this.appService.updateStatus(appId, body.status);
+  }
+
+  @Delete(':appId')
+  async cancelApplication(@Param('appId') appId: string) {
+    return this.appService.deleteApplication(appId);
   }
 }
