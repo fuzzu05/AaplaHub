@@ -1,21 +1,71 @@
 // use prisma-next
 
+enum Role {
+  CITIZEN
+  OFFICER
+  ADMIN
+}
+
+enum ApplicationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   username  String?
   name      String?
-  posts     Post[]
+  password  String?
+  role      Role     @default(CITIZEN)
+  
+  consents      Consent[]
+  applications  ServiceApplication[]
+  auditLogs     IntegrationAuditLog[]
+
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+model Consent {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  systemName      String
+  purpose         String
+  grantedAt       TimestamptzString @default(now())
+  revokedAt       TimestamptzString?
+  
+  @@unique([userId, systemName])
+}
+
+model ServiceApplication {
+  id              Int      @id @default(autoincrement())
+  applicationId   String   @unique
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  serviceName     String
+  status          ApplicationStatus @default(DRAFT)
+  fee             Float    @default(0)
+  isPaid          Boolean  @default(false)
+  canonicalData   Json?
+  
+  createdAt       TimestamptzString @default(now())
+  updatedAt       temporal.updatedAtString()
+}
+
+model IntegrationAuditLog {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  requestId       String
+  systemName      String
+  action          String
+  status          String
+  details         String?
+
+  createdAt       TimestamptzString @default(now())
 }
