@@ -11,11 +11,12 @@ export default function ConsentStep({ onNext }: Props) {
   const [copiedHash, setCopiedHash] = useState(false);
   const [isWaiverClaimed, setIsWaiverClaimed] = useState(true);
   const navigate = useNavigate();
-  const store = useApplicationStore();
+  const setFeeAmount = useApplicationStore((state) => state.setFeeAmount);
+  const setStep = useApplicationStore((state) => state.setStep);
 
   useEffect(() => {
-    store.setFeeAmount(isWaiverClaimed ? 0 : 250);
-  }, [isWaiverClaimed, store]);
+    setFeeAmount(isWaiverClaimed ? 0 : 250);
+  }, [isWaiverClaimed, setFeeAmount]);
 
   return (
     <>
@@ -27,7 +28,7 @@ export default function ConsentStep({ onNext }: Props) {
             <nav className="flex items-center gap-space-xs font-title-sm text-title-sm text-on-surface-variant flex-wrap">
               <button onClick={() => navigate('/citizen/dashboard')} className="hover:text-on-surface cursor-pointer">Citizen Services</button>
               <span className="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
-              <button onClick={() => store.setStep('ELIGIBILITY')} className="hover:text-on-surface cursor-pointer">Skill & Apprenticeship 2026</button>
+              <button onClick={() => setStep('ELIGIBILITY')} className="hover:text-on-surface cursor-pointer">Skill & Apprenticeship 2026</button>
               <span className="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
               <span className="text-secondary font-headline-sm text-headline-sm font-semibold">Granular Consent Gate</span>
             </nav>
