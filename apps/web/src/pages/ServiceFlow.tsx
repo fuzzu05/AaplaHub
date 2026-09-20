@@ -32,7 +32,7 @@ export default function ServiceFlow() {
     store.setStep('FETCHING');
     
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
       addLog("Recording user consent for Identity...");
       await fetch(`${API_URL}/consent/grant`, {
         method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -96,7 +96,7 @@ export default function ServiceFlow() {
     }
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
       const res = await fetch(`${API_URL}/applications/${store.applicationId}/pay`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }

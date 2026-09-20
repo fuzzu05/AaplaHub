@@ -13,7 +13,7 @@ export default function OfficerPortal() {
 
   const fetchApplications = async () => {
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
       const res = await fetch(`${API_URL}/applications/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -35,7 +35,7 @@ export default function OfficerPortal() {
   const handleAction = async (appId: string, status: 'APPROVED' | 'REJECTED') => {
     setIsProcessing(true);
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
       await fetch(`${API_URL}/applications/${appId}/status`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },

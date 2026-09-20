@@ -13,7 +13,7 @@ export default function CitizenDashboard() {
 
   useEffect(() => {
     if (!token) return;
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
     fetch(`${API_URL}/applications/my-applications`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })

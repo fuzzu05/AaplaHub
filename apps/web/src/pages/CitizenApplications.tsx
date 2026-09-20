@@ -26,7 +26,7 @@ export default function CitizenApplications() {
   useEffect(() => {
     if (!token) return;
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
     fetch(`${API_URL}/applications/my-applications`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -46,7 +46,7 @@ export default function CitizenApplications() {
     if (!window.confirm("Are you sure you want to cancel this application?")) return;
     setCancelling(appId);
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL || 'https://aaplahub.onrender.com';
       const res = await fetch(`${API_URL}/applications/${appId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
