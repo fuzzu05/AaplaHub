@@ -24,21 +24,12 @@ export default function Layout({ children, hideNav = false }: LayoutProps) {
       <header className="fixed top-0 left-0 right-0 z-50 bg-primary-container shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
         <div className="h-20 w-full px-gutter flex items-center justify-between gap-space-md">
           <div className="flex items-center gap-space-lg">
-            <Link to="/" className="flex items-center gap-space-sm cursor-pointer">
+            <Link to="/" className="flex items-center cursor-pointer">
               <img 
-                alt="Brand logo" 
-                className="h-8 w-auto object-contain" 
-                src="https://lh3.googleusercontent.com/aida/AEtjO1UMPqo7qrk0Vo48IL9d_9IRQ7HDfjr2c7cjoypT4cXjgDVN7To9WhQSY3-7m6Tk6m6RLDj9H4QCNUj4HS9IjVmPvkNAqTbXB0sNOAp-9itwXcaILr6t91uRDmz-KwlVf0UIjhu7bgumQu-x3zif3USSTcseNPBG_4rGJmemW_Vaf3JTESCflG6fGFE9oax2L2PoH_Ufamyu-X3JpLUkUW7aZvLfKWpsp69iqSEaK0SKbCjFXjVNEUqZ_nE"
+                alt="AaplaHub Logo" 
+                className="h-16 w-auto object-contain" 
+                src="/logo.png"
               />
-              <div className="flex flex-col">
-                <div className="flex items-center gap-space-sm">
-                  <span className="font-title-md text-title-md text-on-primary tracking-tight">AaplaHub DPI Gateway</span>
-                  <span className="font-code-sm text-code-sm bg-surface/10 text-primary-fixed px-space-xs py-0.5 rounded hidden sm:inline-block">
-                    SIH 2026 Sandbox POC • Simulated Connectors
-                  </span>
-                </div>
-                <span className="font-body-sm text-body-sm text-on-primary-container">Enter Once. Reuse Securely.</span>
-              </div>
             </Link>
 
             {!hideNav && user && (
@@ -72,53 +63,62 @@ export default function Layout({ children, hideNav = false }: LayoutProps) {
           </div>
 
           <div className="flex items-center gap-space-md">
-            <div className="hidden lg:flex items-center gap-space-xs bg-surface-container-lowest/5 px-space-sm py-space-xs rounded">
-              <div className="flex items-center gap-1.5 px-space-xs py-0.5">
-                <span className="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
-                <span className="font-code-sm text-code-sm text-surface-bright">UIDAI: Sandbox Ready</span>
-              </div>
-              <div className="flex items-center gap-1.5 px-space-xs py-0.5">
-                <span className="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
-                <span className="font-code-sm text-code-sm text-surface-bright">NSDL: Mock Active</span>
-              </div>
-            </div>
             
-            {user ? (
-              <div className="flex items-center gap-space-sm">
-                <button aria-label="Notifications" className="p-space-sm rounded text-on-primary-container hover:text-on-primary hover:bg-surface/10 transition-colors" type="button">
-                  <span className="material-symbols-outlined text-[20px]">notifications</span>
+              {/* Hamburger Menu Dropdown */}
+              <div className="relative group">
+                <button className="p-2 rounded text-on-primary-container hover:text-on-primary hover:bg-surface/10 transition-colors flex items-center">
+                  <span className="material-symbols-outlined text-[28px]">menu</span>
                 </button>
-                <div className="flex items-center gap-space-sm pl-space-xs">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                    <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
-                  </div>
-                  <div className="hidden sm:flex flex-col text-left mr-2">
-                    <span className="font-title-sm text-title-sm text-on-primary leading-tight">
-                      {user.role === 'citizen' ? 'Citizen' : 'GovTech Officer'}
-                    </span>
-                    <span className="font-code-sm text-code-sm text-primary-fixed-dim leading-tight">
-                      ROLE: {user.role.toUpperCase()}
-                    </span>
-                  </div>
-                  <button 
-                    onClick={handleLogout} 
-                    className="px-3 py-1.5 text-sm font-medium text-on-primary-container bg-surface/10 hover:bg-surface/20 rounded transition-colors"
-                    title="Click to logout"
-                  >
-                    Sign Out
-                  </button>
+                <div className="absolute right-0 mt-2 w-64 bg-surface-container-high rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2 border border-surface-variant/20">
+                  <span className="block px-4 py-2 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Gateway Desks</span>
+                  <Link to="/oauth/mock?role=citizen" className="block px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container-highest hover:text-primary transition-colors">Citizen Sovereign Portal</Link>
+                  <Link to="/oauth/mock?role=officer" className="block px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container-highest hover:text-primary transition-colors">Officer Scrutiny Workstation</Link>
+                  <Link to="/oauth/mock?role=business" className="block px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container-highest hover:text-primary transition-colors">Business Enterprise Suite</Link>
+                  <Link to="/oauth/mock?role=admin" className="block px-4 py-3 text-sm font-medium text-on-surface hover:bg-surface-container-highest hover:text-primary transition-colors">Platform Admin & Interop Gateway</Link>
                 </div>
               </div>
-            ) : (
-              <div className="flex items-center gap-space-sm">
-                <Link to="/oauth/mock?role=citizen" className="px-space-md py-space-sm bg-secondary text-on-secondary rounded font-title-sm text-title-sm hover:bg-secondary-container transition-colors">
-                  Citizen Login
-                </Link>
-                <Link to="/oauth/mock?role=officer" className="px-space-md py-space-sm border border-secondary text-secondary rounded font-title-sm text-title-sm hover:bg-secondary/10 transition-colors">
-                  Officer Login
-                </Link>
-              </div>
-            )}
+
+              <div className="w-px h-8 bg-on-primary-container/20 mx-1"></div>
+
+              {user ? (
+                <div className="flex items-center gap-space-sm">
+                  <button aria-label="Notifications" className="p-space-sm rounded text-on-primary-container hover:text-on-primary hover:bg-surface/10 transition-colors" type="button">
+                    <span className="material-symbols-outlined text-[24px]">notifications</span>
+                  </button>
+                  <div className="flex items-center gap-space-sm pl-space-xs">
+                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                      <span className="material-symbols-outlined text-on-primary text-[20px]">person</span>
+                    </div>
+                    <div className="hidden sm:flex flex-col text-left mr-2">
+                      <span className="font-title-sm text-title-sm text-on-primary leading-tight">
+                        {user.role === 'citizen' ? 'Citizen' : 
+                         user.role === 'officer' ? 'GovTech Officer' : 
+                         user.role === 'business' ? 'Enterprise User' : 'Platform Admin'}
+                      </span>
+                      <span className="font-code-sm text-code-sm text-primary-fixed-dim leading-tight">
+                        ROLE: {user.role.toUpperCase()}
+                      </span>
+                    </div>
+                    <button 
+                      onClick={handleLogout} 
+                      className="px-4 py-2 text-sm font-medium text-on-primary-container bg-surface/10 hover:bg-surface/20 rounded transition-colors ml-2"
+                      title="Click to logout"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-space-sm pl-space-xs">
+                  <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+                    <span className="material-symbols-outlined text-on-surface-variant text-[20px]">person_off</span>
+                  </div>
+                  <div className="hidden sm:flex flex-col text-left mr-2">
+                    <span className="font-title-sm text-title-sm text-on-primary leading-tight">Guest Session</span>
+                    <span className="font-code-sm text-code-sm text-on-surface-variant leading-tight">ROLE: NONE</span>
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </header>
@@ -126,20 +126,6 @@ export default function Layout({ children, hideNav = false }: LayoutProps) {
       <main className="w-full pt-20 bg-surface flex-1 flex flex-col">
         {children}
       </main>
-
-      <footer className="w-full bg-surface-container-low py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] mt-auto">
-        <div className="w-full px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md">
-          <div className="flex flex-col gap-space-xs">
-            <span className="font-title-sm text-title-sm text-on-surface">AaplaHub Sovereign Interoperability Layer • Smart India Hackathon 2026 Sandbox Prototype</span>
-            <span className="font-body-sm text-body-sm text-on-surface-variant">Sovereign Public Digital Infrastructure Architecture • Zero Third-Party Tracker Compliance</span>
-          </div>
-          <div className="flex items-center gap-space-md font-code-sm text-code-sm text-on-surface-variant">
-            <span>SANDBOX ENGINE v3.4.1-rc</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
-            <span>CONSENT LEDGER: ACTIVE</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
