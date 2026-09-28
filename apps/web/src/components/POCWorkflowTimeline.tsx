@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { UserCheck, ShieldCheck, Database, FileText, CreditCard, Briefcase } from 'lucide-react';
 
 const workflowNodes = [
@@ -56,12 +56,12 @@ export default function POCWorkflowTimeline() {
   const strokeOffset = pathLength - drawLength;
 
   return (
-    <div 
+    <div
       className="w-full lg:flex-1 lg:max-w-[700px] bg-surface-container-lowest p-space-md lg:p-space-lg rounded-xl shadow-md relative mt-8 lg:mt-0"
       onMouseLeave={() => setActiveIndex(-1)}
     >
       <h3 className="font-label-caps text-label-caps uppercase text-on-surface-variant mb-6 text-center lg:text-left">POC Workflow Timeline</h3>
-      
+
       {/* Desktop/Tablet Horizontal Zigzag View */}
       <div className="hidden sm:block relative w-full h-[260px] mx-auto">
         {/* SVG Base Dashed Line */}
@@ -94,23 +94,21 @@ export default function POCWorkflowTimeline() {
           const isCurrent = index === activeIndex;
 
           return (
-            <div 
-              key={node.id} 
+            <div
+              key={node.id}
               className="absolute flex flex-col items-center w-[120px] -ml-[60px] cursor-pointer group"
               style={{ left: `${xPos}%`, top: `${yPos}px` }}
               onMouseEnter={() => setActiveIndex(index)}
             >
-              <div 
-                className={`w-12 h-12 rounded-full bg-white border-4 flex items-center justify-center z-10 relative transition-all duration-500 ${
-                  isActive 
-                    ? 'border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.7)] scale-110' 
+              <div
+                className={`w-12 h-12 rounded-full bg-white border-4 flex items-center justify-center z-10 relative transition-all duration-500 ${isActive
+                    ? 'border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.7)] scale-110'
                     : 'border-outline-variant/60 shadow-sm group-hover:border-orange-300 group-hover:scale-105'
-                }`}
+                  }`}
               >
-                <node.Icon 
-                  className={`w-5 h-5 transition-colors duration-500 ${
-                    isActive ? 'text-orange-500' : 'text-outline-variant/60 group-hover:text-orange-400'
-                  }`} 
+                <node.Icon
+                  className={`w-5 h-5 transition-colors duration-500 ${isActive ? 'text-orange-500' : 'text-outline-variant/60 group-hover:text-orange-400'
+                    }`}
                 />
               </div>
               <div className={`mt-3 text-center px-1 transition-all duration-500 ${isCurrent ? 'translate-y-1' : ''}`}>
@@ -130,7 +128,7 @@ export default function POCWorkflowTimeline() {
       <div className="sm:hidden flex flex-col gap-8 relative mt-2 pl-2">
         <div className="absolute left-8 top-4 bottom-4 w-[3px] border-l-[3px] border-dashed border-outline-variant/40 z-0"></div>
         {/* Animated Solid Line for Mobile */}
-        <div 
+        <div
           className="absolute left-[30.5px] top-4 w-[3px] bg-orange-500 z-0 transition-all duration-700 ease-out"
           style={{ height: activeIndex >= 0 ? `calc(${(activeIndex / 5) * 100}% - 32px)` : '0%' }}
         ></div>
@@ -140,16 +138,15 @@ export default function POCWorkflowTimeline() {
           const isCurrent = index === activeIndex;
 
           return (
-            <div 
-              key={node.id} 
+            <div
+              key={node.id}
               className="flex gap-4 relative z-10 cursor-pointer group"
               onMouseEnter={() => setActiveIndex(index)}
             >
-              <div className={`w-12 h-12 shrink-0 rounded-full bg-white border-4 flex items-center justify-center transition-all duration-500 ${
-                isActive 
-                  ? 'border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.7)] scale-110' 
+              <div className={`w-12 h-12 shrink-0 rounded-full bg-white border-4 flex items-center justify-center transition-all duration-500 ${isActive
+                  ? 'border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.7)] scale-110'
                   : 'border-outline-variant/60 shadow-sm group-hover:border-orange-300 group-hover:scale-105'
-              }`}>
+                }`}>
                 <node.Icon className={`w-5 h-5 transition-colors duration-500 ${isActive ? 'text-orange-500' : 'text-outline-variant/60 group-hover:text-orange-400'}`} />
               </div>
               <div className={`flex flex-col justify-center pt-1 transition-all duration-500 ${isCurrent ? 'translate-x-1' : ''}`}>
